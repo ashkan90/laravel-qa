@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
+use App\Question;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -27,4 +28,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
+
+    public function setTitleAttribute($value)
+    {
+        $this->attributes['title'] = $value;
+        $this->attributes['slug'] = str_slug($value);
+    }
 }
